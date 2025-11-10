@@ -100,6 +100,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## 📞 Contact
 
-Bryan Somto - [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?logo=linkedin)](https://www.linkedin.com/in/bryansomto)
+Bryan Somto - [LinkedIn](https://www.linkedin.com/in/bryansomto)
 
 Project Link: [https://github.com/bryansomto/finTrack](https://github.com/bryansomto/finTrack)
