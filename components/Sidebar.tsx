@@ -15,14 +15,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import {
-  Home,
-  AccountBalanceWallet,
-  TrendingUp,
-  Receipt,
-  Category,
-  Close,
-} from "@mui/icons-material";
+import { Home, TrendingUp, Close } from "@mui/icons-material";
+import SavingsIcon from "@mui/icons-material/Savings";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import PaymentsIcon from "@mui/icons-material/Payments";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import ThemeToggleButton from "./ThemeToggleButton";
 
@@ -33,11 +30,12 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { text: "Dashboard", icon: <Home />, path: "/" },
-  { text: "Accounts", icon: <AccountBalanceWallet />, path: "/accounts" },
-  { text: "Transactions", icon: <Receipt />, path: "/transactions" },
-  { text: "Investments", icon: <TrendingUp />, path: "/investments" },
-  { text: "Categories", icon: <Category />, path: "/categories" },
+  { text: "Overview", icon: <Home />, path: "/" },
+  { text: "Accounts", icon: <SavingsIcon />, path: "/accounts" },
+  { text: "Cards", icon: <CreditCardIcon />, path: "/cards" },
+  { text: "Budgets", icon: <TrendingUp />, path: "/budgets" },
+  { text: "Goals", icon: <VerifiedIcon />, path: "/goals" },
+  { text: "Transactions", icon: <PaymentsIcon />, path: "/transactions" },
 ];
 
 export default function Sidebar({ open, onClose, onToggle }: SidebarProps) {
@@ -58,7 +56,7 @@ export default function Sidebar({ open, onClose, onToggle }: SidebarProps) {
     return (
       <Box
         sx={{
-          width: 280,
+          width: 220,
           flexShrink: 0,
           height: "100vh",
           position: "sticky",

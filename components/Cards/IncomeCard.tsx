@@ -32,9 +32,7 @@ export default function IncomeCard({
   accountLabel = "All accounts",
 }: IncomeCardProps) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isDesktop = useMediaQuery(theme.breakpoints.down("md"));
-  const isLgDesktop = useMediaQuery(theme.breakpoints.down("lg"));
+  const isBelowLG = useMediaQuery(theme.breakpoints.down("lg"));
 
   // Find top category
   const topCategory = data.reduce((prev, curr) =>
@@ -85,7 +83,7 @@ export default function IncomeCard({
           {/* Centered total */}
           <Box
             position="absolute"
-            top="50%"
+            top={isBelowLG ? "50%" : "40%"}
             left="50%"
             sx={{ transform: "translate(-50%, -50%)" }}
             display="flex"

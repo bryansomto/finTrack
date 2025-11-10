@@ -27,7 +27,7 @@ export default function Overview() {
     >
       <IncomeCard total={132142} data={incomeData} />
       <SpentCard total={30671} data={spentData} />
-      <BalanceCard balance="1,250" colorScheme="purple" />
+      <BalanceCard cardNo={3} />
       <IncomeSpentCard data={weeklyData} />
       <GoalsCard goals={financialGoals} />
       <SavingsCard saved={20886} goal={30671} />
