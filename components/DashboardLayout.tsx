@@ -82,7 +82,7 @@ export default function DashboardLayout({
             }}
           >
             <Typography
-              variant="h5"
+              variant="h1"
               sx={{
                 ml: isMobile ? 1 : 3,
                 mt: 3,

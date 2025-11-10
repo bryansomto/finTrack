@@ -1,4 +1,4 @@
-interface DailyData {
+interface WeeklyData {
   day: string;
   netIncome: number;
   outcome: number;
@@ -8,6 +8,13 @@ export interface Goal {
   title: string;
   description: string;
   completed?: boolean;
+}
+
+export interface customerAccounts {
+  bank: string;
+  shortName: string;
+  accountNumber: number;
+  balance: number;
 }
 
 export const incomeData = [
@@ -24,8 +31,7 @@ export const spentData = [
     { label: "Rent", percent: 29.5, color: "#EC407A" },
   ];
 
-  // Mock data for weekly income and expenses
-export const weeklyData: DailyData[] = [
+export const weeklyData: WeeklyData[] = [
   { day: "Mon", netIncome: 1200, outcome: 800 },
   { day: "Tue", netIncome: 1900, outcome: 1200 },
   { day: "Wed", netIncome: 1500, outcome: 900 },
@@ -61,4 +67,10 @@ export const financialGoals: Goal[] = [
     description: "Build ₦25,000 investment portfolio",
     completed: false
   }
+];
+
+export const customerAccounts: customerAccounts[] = [
+  { bank: 'United Bank for Africa', shortName: 'UBA', accountNumber: 2074606070, balance: 2107058 },
+  { bank: 'Opay', shortName: 'Opay', accountNumber: 8168038695, balance: 102675 },
+  { bank: 'Moniepoint', shortName: 'Moniepoint', accountNumber: 5563442010, balance: 51250 },
 ];

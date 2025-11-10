@@ -88,7 +88,7 @@ export default function Sidebar({ open, onClose, onToggle }: SidebarProps) {
                     mb: 0.5,
                     mx: 1.5,
                     "&.Mui-selected": {
-                      backgroundColor: "background.white",
+                      backgroundColor: "background.paper",
                       boxShadow: 3,
                       color: "primary.main",
                       "&:hover": {
@@ -172,7 +172,7 @@ export default function Sidebar({ open, onClose, onToggle }: SidebarProps) {
                     mb: 0.5,
                     mx: 1.5,
                     "&.Mui-selected": {
-                      backgroundColor: "background.white",
+                      backgroundColor: "background.paper",
                       boxShadow: 3,
                       color: "primary.main",
                       "&:hover": {

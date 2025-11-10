@@ -3,20 +3,24 @@ import { createTheme, CSSObject, Theme } from "@mui/material/styles";
 const typography = {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontSize: '2rem',
-      fontWeight: 600,
+      fontSize: '1.7rem',
+      fontWeight: 500,
       lineHeight: 1.3,
     },
     h2: {
       fontSize: '1.5rem',
-      fontWeight: 600,
+      fontWeight: 500,
     },
     h3: {
-      fontSize: '1.25rem',
+      fontSize: '1.3rem',
+      fontWeight: 500,
+    },
+    h5: {
+      fontSize: '1.1rem',
       fontWeight: 500,
     },
     h6: {
-      fontWeight: 600,
+      fontWeight: 500,
       fontSize: '1rem',
     },
     body1: {
@@ -115,7 +119,7 @@ const lightPalette = {
   warning: { main: "#FFD166" },
   error: { main: "#F87272" },
   info: { main: "#9C27B0" },
-  background: { default: "#F5F6FA", paper: "#F6F6F6", white: "#FFFFFF" },
+  background: { default: "#F5F6FA", paper: "#F6F6F6", white: "#FFFFFF",  greenC: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)", blueC: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", purpleC: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", orangeC: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
   text: { primary: "#1A1A1A", secondary: "#6B7280",  tertiary: "#4B2E05" },
   divider: "#E5E7EB",
 };
@@ -128,7 +132,7 @@ const darkPalette = {
     warning: { main: "#FFD166" },
     error: { main: "#F87272" },
     info: { main: "#9C27B0" },
-    background: { default: "#0D1117", paper: "#161B22" },
+    background: { default: "#0D1117", paper: "#161B22", white: "#FFFFFF", greenC: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)", blueC: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", purpleC: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", orangeC: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
     text: { primary: "#E5E7EB", secondary: "#9CA3AF", tertiary: "#4B2E05" },
     divider: "#1F2937",
 };
