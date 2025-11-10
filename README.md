@@ -40,7 +40,7 @@ You will need the following software installed on your machine:
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/bryansomto/finTrack.git](https://github.com/bryansomto/finTrack.git)
+    git clone https://github.com/bryansomto/finTrack.git
     cd finTrack
     ```
 
