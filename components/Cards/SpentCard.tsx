@@ -1,5 +1,6 @@
 "use client";
 
+import { formatCurrency } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -54,7 +55,7 @@ export default function SpentCard({
         </Stack>
 
         <Typography variant="h4" fontWeight={700} mt={2}>
-          ₦{total.toLocaleString()}
+          {formatCurrency(total)}
         </Typography>
 
         <Divider sx={{ my: 2 }} />

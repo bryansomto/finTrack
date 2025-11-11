@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import ThemeRegistry from "@/components/ThemeRegistry";
-import DashboardLayout from "@/components/DashboardLayout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,9 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${roboto.variable} antialiased`}>
-        <ThemeRegistry>
-          <DashboardLayout>{children}</DashboardLayout>
-        </ThemeRegistry>
+        <ThemeRegistry>{children}</ThemeRegistry>
       </body>
     </html>
   );

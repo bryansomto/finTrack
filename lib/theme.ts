@@ -2,35 +2,45 @@ import { createTheme, CSSObject, Theme } from "@mui/material/styles";
 
 const typography = {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h1: {
-      fontSize: '1.7rem',
-      fontWeight: 500,
-      lineHeight: 1.3,
-    },
-    h2: {
-      fontSize: '1.5rem',
-      fontWeight: 500,
-    },
-    h3: {
-      fontSize: '1.3rem',
-      fontWeight: 500,
-    },
-    h5: {
-      fontSize: '1.1rem',
-      fontWeight: 500,
-    },
-    h6: {
-      fontWeight: 500,
-      fontSize: '1rem',
-    },
+   h1: {
+    fontSize: '2.5rem', // 40px
+    fontWeight: 600,
+    lineHeight: 1.2,
+  },
+  h2: {
+    fontSize: '2.1rem', // ~34px
+    fontWeight: 600,
+  },
+  h3: {
+    fontSize: '1.7rem', // ~27px
+    fontWeight: 600,
+  },
+  h4: {
+    fontSize: '1.4rem', // ~22px
+    fontWeight: 600, // Bolder, as it's a sub-section
+  },
+  h5: {
+    fontSize: '1.2rem', // ~19px
+    fontWeight: 700, // Even bolder to stand out
+  },
+  h6: {
+    fontSize: '1rem', // 16px
+    fontWeight: 700, // BOLD, as it's often a small "label"
+  },
     body1: {
       fontSize: '0.95rem',
+      fontWeight: 400,
       lineHeight: 1.6,
     },
     body2: {
       fontSize: '0.85rem',
       color: '#6B7280',
     },
+    subtitle1: {
+    fontSize: '1rem',
+    fontWeight: 500, // Good for sub-labels
+    color: '#6B7280',
+  },
     button: {
       textTransform: 'none' as const,
       fontWeight: 500,
@@ -133,7 +143,7 @@ const darkPalette = {
     error: { main: "#F87272" },
     info: { main: "#9C27B0" },
     background: { default: "#0D1117", paper: "#161B22", white: "#FFFFFF", greenC: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)", blueC: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", purpleC: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", orangeC: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
-    text: { primary: "#E5E7EB", secondary: "#9CA3AF", tertiary: "#4B2E05" },
+    text: { primary: "#E5E7EB", secondary: "#9CA3AF", tertiary: "#3C2404" },
     divider: "#1F2937",
 };
 

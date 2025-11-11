@@ -10,6 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { formatCurrency } from "@/lib/utils";
 
 const colorSchemes = {
   purple: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -93,20 +94,25 @@ export default function BalanceCard({
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography fontWeight={600}>Balance</Typography>
+                <Typography variant={"h6"} fontWeight={500}>
+                  Balance
+                </Typography>
               </Box>
 
               <Box
                 sx={{
                   display: "flex",
-                  alignItems: "flex-start",
+                  alignItems: "flex-end",
                   gap: 1,
                 }}
               >
-                <Typography variant="h5" fontWeight="600">
-                  ₦{mockBalances[Index % mockBalances.length].toLocaleString()}
+                <Typography variant="h3" sx={{ mt: 1 }}>
+                  {formatCurrency(mockBalances[Index % mockBalances.length])}
                 </Typography>
-                <IconButton size="small" sx={{ color: "text.tertiary" }}>
+                <IconButton
+                  size="small"
+                  sx={{ color: "text.tertiary", mb: "3px" }}
+                >
                   <VisibilityOffIcon fontSize="small" />
                 </IconButton>
               </Box>
@@ -122,12 +128,12 @@ export default function BalanceCard({
                 <Typography
                   variant="body2"
                   sx={{
-                    bgcolor: "rgba(255,255,255,0.8)",
+                    bgcolor: "background.paper",
+                    color: "text.primary",
                     px: 1.5,
                     py: 0.5,
                     borderRadius: 1,
                     cursor: "pointer",
-                    color: "text.tertiary",
                   }}
                 >
                   {cardDetails}
@@ -135,8 +141,8 @@ export default function BalanceCard({
 
                 <Box
                   sx={{
-                    bgcolor: "black",
-                    color: "white",
+                    bgcolor: "background.paper",
+                    color: "text.primary",
                     fontWeight: 700,
                     fontSize: "0.75rem",
                     px: 1,

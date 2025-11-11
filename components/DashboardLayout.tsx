@@ -10,8 +10,10 @@ import { usePathname } from "next/navigation";
 
 export default function DashboardLayout({
   children,
+  button,
 }: {
   children: React.ReactNode;
+  button?: React.ReactNode;
 }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -67,6 +69,7 @@ export default function DashboardLayout({
             display: "flex",
             flexDirection: "column",
             minHeight: "100vh",
+            minWidth: 0,
           }}
         >
           {/* Page content */}
@@ -81,16 +84,24 @@ export default function DashboardLayout({
               borderLeft: `1px solid ${theme.palette.divider}`,
             }}
           >
-            <Typography
-              variant="h1"
+            <Box
               sx={{
-                ml: isMobile ? 1 : 3,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
                 mt: 3,
+                mx: isMobile ? 1 : 3,
               }}
-              gutterBottom
             >
-              {pageTitle}
-            </Typography>
+              <Typography
+                variant={isMobile ? "h3" : "h2"}
+                fontWeight={600}
+                gutterBottom
+              >
+                {pageTitle}
+              </Typography>
+              {button}
+            </Box>
             {children}
           </Box>
         </Box>

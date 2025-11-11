@@ -1,5 +1,6 @@
 "use client";
 
+import { formatCurrency } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -74,10 +75,10 @@ export default function SavingsCard({
             alignItems="center"
           >
             <Typography variant="h6" fontWeight={700}>
-              ₦{saved.toLocaleString()}
+              {formatCurrency(saved)}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              of ₦{goal.toLocaleString()}
+              of {formatCurrency(goal)}
             </Typography>
           </Box>
         </Box>

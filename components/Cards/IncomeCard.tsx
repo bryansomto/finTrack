@@ -1,5 +1,6 @@
 "use client";
 
+import { formatCurrency } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -91,7 +92,7 @@ export default function IncomeCard({
             alignItems="center"
           >
             <Typography variant="h5" fontWeight={700}>
-              ₦{total.toLocaleString()}
+              {formatCurrency(total)}
             </Typography>
             <Typography variant="caption" color="text.secondary">
               Total
@@ -105,8 +106,8 @@ export default function IncomeCard({
             mt={2}
             textAlign="center"
           >
-            Top category: {topCategory.label} ($
-            {topCategory.value.toLocaleString()})
+            Top category: {topCategory.label} (
+            {formatCurrency(topCategory.value)})
           </Typography>
         )}
       </CardContent>
