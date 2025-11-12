@@ -76,8 +76,7 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
         sx={(theme) => ({
           backgroundColor: theme.palette.background.paper,
           color: theme.palette.text.primary,
-          // borderTop: `2px solid ${theme.palette.primary.main}`,
-          borderRadius: { xs: "0px", sm: "20px 20px 0 0" },
+          borderRadius: { xs: "0px", sm: "10px 10px 0 0" },
           borderBottom: `1px solid ${theme.palette.divider}`,
           boxShadow: 0,
         })}
@@ -87,7 +86,7 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
             display: "flex",
             justifyContent: "space-between",
             width: "100%",
-            minHeight: { xs: 56, sm: 64 },
+            minHeight: { xs: 50, sm: 56 },
           }}
         >
           {/* Left section - Logo and mobile menu */}

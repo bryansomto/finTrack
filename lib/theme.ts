@@ -123,7 +123,7 @@ const components = {
 
 const lightPalette = {
   mode: "light" as const,
-  primary: { main: "#00A87C", contrastText: "#ffffff" },
+  primary: { main: "#00A87C", contrastText: "#004D40" },
   secondary: { main: "#00D1FF" },
   success: { main: "#22C55E" },
   warning: { main: "#FFD166" },
@@ -136,7 +136,7 @@ const lightPalette = {
 
 const darkPalette = {
     mode: "dark" as const,
-    primary: { main: "#00A87C" },
+    primary: { main: "#00A87C", contrastText: "#FAFAFA" },
     secondary: { main: "#00D1FF" },
     success: { main: "#22C55E" },
     warning: { main: "#FFD166" },

@@ -35,7 +35,7 @@ export default function TransactionItem({
   const isMenuOpen = Boolean(anchorEl);
 
   const isIncome = transaction.type === "Income";
-  const amountColor = isIncome ? "success.main" : "text.primary";
+  const amountColor = isIncome ? "success.main" : "error.main";
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation(); // Stop click from bubbling to the ListItem

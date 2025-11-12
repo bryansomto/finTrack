@@ -145,6 +145,7 @@ export default function Sidebar({ open, onClose, onToggle }: SidebarProps) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              height: { xs: 52, sm: 58 },
             }}
           >
             <Typography variant="h6" component="div">

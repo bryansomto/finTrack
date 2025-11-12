@@ -12,17 +12,16 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Stack,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { useState } from "react";
 import { formatCurrency } from "@/lib/utils";
-
-type CustomerAccount = {
-  bank: string;
-  shortName: string;
-  accountNumber: number;
-  balance: number;
-};
+import { CustomerAccount } from "@/lib/types";
+import { useTransactions } from "@/lib/hooks/useTransactions";
+import TransactionList from "@/components/Transactions/TransactionList";
+import { usePersistentVisibility } from "@/lib/hooks/usePersistentVisibility";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function Accounts() {
   const theme = useTheme();
@@ -31,6 +30,10 @@ export default function Accounts() {
     useState<CustomerAccount | null>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
+  const { filteredTransactions, filters, setFilters, handleUpdateCategory } =
+    useTransactions();
+  const { isVisible, toggleVisibility: toggleBalanceVisibility } =
+    usePersistentVisibility("finTrack:visibilityMap", true);
 
   // --- Handlers for the filter ---
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -41,8 +44,11 @@ export default function Accounts() {
     setAnchorEl(null);
   };
 
-  const handleSelectAccount = (account: CustomerAccount | null) => {
+  const handleAccountSelection = (account: CustomerAccount | null) => {
     setSelectedAccount(account);
+    setFilters({
+      accountId: account ? account.accountNumber : "All",
+    });
     handleCloseMenu();
   };
 
@@ -83,16 +89,42 @@ export default function Accounts() {
           "&:hover": {
             boxShadow: 6,
           },
+          minWidth: "240px",
         }}
       >
-        <Box sx={{ p: isMobile ? 2 : 3 }}>
-          <Typography variant="h5" fontWeight={400}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            p: isMobile ? 2 : 3,
+            height: "160px",
+            color: "primary.contrastText",
+          }}
+        >
+          <Typography variant="h6" fontWeight={300}>
             Total Cash Balance
           </Typography>
-          <Box sx={{ mt: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
             <Typography variant={isMobile ? "h3" : "h2"} fontWeight={500}>
-              {formatCurrency(totalBalance)}
+              {isVisible("totalBalance")
+                ? formatCurrency(totalBalance)
+                : "₦ • • • • • •"}
             </Typography>
+            <IconButton
+              size="small"
+              sx={{ mb: "3px" }}
+              onClick={() => toggleBalanceVisibility("totalBalance")}
+              aria-label={
+                isVisible("totalBalance") ? "Hide balance" : "Show balance"
+              }
+            >
+              {isVisible("totalBalance") ? (
+                <VisibilityOff fontSize="small" />
+              ) : (
+                <Visibility fontSize="small" />
+              )}
+            </IconButton>
           </Box>
         </Box>
       </Paper>
@@ -128,8 +160,8 @@ export default function Accounts() {
               >
                 {/* "All" Option */}
                 <MenuItem
-                  onClick={() => handleSelectAccount(null)}
-                  selected={selectedAccount === null}
+                  onClick={() => handleAccountSelection(null)}
+                  selected={filters.accountId === "All"}
                 >
                   All Accounts
                 </MenuItem>
@@ -137,8 +169,11 @@ export default function Accounts() {
                 {customerAccounts.map((account) => (
                   <MenuItem
                     key={account.shortName}
-                    onClick={() => handleSelectAccount(account)}
-                    selected={selectedAccount?.shortName === account.shortName}
+                    onClick={() => handleAccountSelection(account)}
+                    selected={
+                      filters.accountId !== "All" &&
+                      filters.accountId === account.accountNumber
+                    }
                   >
                     {account.shortName} ({account.bank})
                   </MenuItem>
@@ -153,7 +188,7 @@ export default function Accounts() {
               includeInputInList
               value={selectedAccount}
               onChange={(event, newValue: CustomerAccount | null) => {
-                setSelectedAccount(newValue);
+                handleAccountSelection(newValue);
               }}
               sx={{ minWidth: 200 }}
               renderInput={(params) => (
@@ -172,6 +207,7 @@ export default function Accounts() {
             elevation={2}
             sx={{
               width: "100%",
+              minWidth: "240px",
               backgroundColor: theme.palette.background.default,
               transition: "box-shadow 0.3s ease-in-out",
               "&:hover": {
@@ -199,25 +235,63 @@ export default function Accounts() {
                 >
                   <Typography
                     variant={isMobile ? "subtitle1" : "h6"}
-                    fontWeight={isMobile ? "400" : "500"}
+                    fontWeight={isMobile ? "300" : "400"}
                     color="text.secondary"
                   >
                     {account.bank}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    fontWeight={isMobile ? "300" : "400"}
+                  >
                     {account.accountNumber}
                   </Typography>
                 </Box>
               </Box>
-              <Box sx={{ px: isMobile ? 1 : 2 }}>
+              <Box
+                sx={{
+                  px: isMobile ? 1 : 2,
+                  display: "flex",
+                  alignItems: "flex-end",
+                  gap: 1,
+                }}
+              >
+                {/* 1. Check visibility using the account.accountNumber ID */}
                 <Typography variant={isMobile ? "h5" : "h4"} fontWeight="600">
-                  {formatCurrency(account.balance)}
+                  {isVisible(account.accountNumber)
+                    ? formatCurrency(account.balance)
+                    : "₦ • • • • • •"}
                 </Typography>
+
+                {/* 2. Toggle visibility using the account.accountNumber ID */}
+                <IconButton
+                  size="small"
+                  sx={{ mb: "3px" }}
+                  onClick={() => toggleBalanceVisibility(account.accountNumber)}
+                  aria-label={
+                    isVisible(account.accountNumber)
+                      ? "Hide balance"
+                      : "Show balance"
+                  }
+                >
+                  {isVisible(account.accountNumber) ? (
+                    <VisibilityOff fontSize="small" />
+                  ) : (
+                    <Visibility fontSize="small" />
+                  )}
+                </IconButton>
               </Box>
             </Box>
           </Paper>
         ))}
       </Box>
+      <Stack spacing={3} p={isMobile ? 1 : 3}>
+        <TransactionList
+          transactions={filteredTransactions}
+          onUpdateCategory={handleUpdateCategory}
+        />
+      </Stack>
     </Box>
   );
 }

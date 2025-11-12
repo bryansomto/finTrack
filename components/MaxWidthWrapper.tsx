@@ -19,7 +19,6 @@ const MaxWidthWrapper = ({
       className={cn("h-full mx-auto w-full max-w-6xl", className)}
       sx={{
         backgroundColor: theme.palette.background.default,
-        borderRadius: 2,
         boxShadow: isDarkMode ? 4 : 1,
         transition: "background-color 0.3s ease",
       }}

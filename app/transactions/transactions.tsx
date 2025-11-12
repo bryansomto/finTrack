@@ -11,14 +11,7 @@ import {
 } from "@/lib/mockData";
 import TransactionFilterBar from "@/components/Transactions/TransactionFilterBar";
 import TransactionList from "@/components/Transactions/TransactionList";
-
-interface Filters {
-  dateRange: string;
-  accountId: number | "All";
-  type: "Income" | "Expense" | "All";
-  category: TransactionCategory | "All";
-  searchQuery: string;
-}
+import { Filters } from "@/lib/types";
 
 export default function Transactions() {
   const theme = useTheme();
