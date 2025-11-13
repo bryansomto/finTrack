@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/DashboardLayout";
-import Cards from "./cards";
 import AddCardButton from "@/components/Buttons/AddCardButton";
+import Cards from "./cards";
 
 export default function CardsPage() {
   return (

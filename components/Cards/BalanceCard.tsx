@@ -11,15 +11,9 @@ import {
 } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { formatCurrency } from "@/lib/utils";
-
-const colorSchemes = {
-  purple: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  blue: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-  green: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-  orange: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-};
-
-const mockBalances = [2301, 7450, 12890];
+import { colorSchemes, customerAccounts } from "@/lib/mockData";
+import { usePersistentVisibility } from "@/lib/hooks/usePersistentVisibility";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface BalanceCardProps {
   title?: string;
@@ -29,17 +23,19 @@ interface BalanceCardProps {
   variant?: "default" | "compact";
   colorScheme?: keyof typeof colorSchemes;
   accountLabel?: string;
-  cardNo: number;
+  cards: customerAccounts[];
 }
 
 export default function BalanceCard({
   title = "Cards",
   cardDetails = "See card details",
   accountLabel = "All accounts",
-  cardNo = 1,
+  cards,
 }: BalanceCardProps) {
   const theme = useTheme();
   const schemeKeys = Object.keys(colorSchemes) as (keyof typeof colorSchemes)[];
+  const { isVisible, toggleVisibility: toggleBalanceVisibility } =
+    usePersistentVisibility("finTrack:visibilityMap", true);
 
   return (
     <Card
@@ -68,34 +64,42 @@ export default function BalanceCard({
             mt: 3,
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 1,
             justifyContent: "flex-start",
             alignItems: "center",
-            maxHeight: 200,
-            // overflowY: "auto",
-            // overflowX: "hidden",
-            p: 1,
+            overflowY: "auto",
+            overflowX: "hidden",
+            maxHeight: "280px",
+            "& > *": {
+              flexShrink: 0,
+            },
+            "&::-webkit-scrollbar": { display: "none" },
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
           }}
         >
-          {[...Array(cardNo)].map((_, Index) => (
+          {cards.map((account, Index) => (
             <Box
               key={Index}
               sx={{
                 borderRadius: 1,
-                p: 2.5,
+                p: 2,
                 background: colorSchemes[schemeKeys[Index % schemeKeys.length]],
                 color: "text.tertiary",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                width: "98%",
-                minWidth: 230,
+                width: "100%",
+                minWidth: 200,
                 boxShadow: 3,
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography variant={"h6"} fontWeight={500}>
+                <Typography variant="body1" fontWeight="500">
                   Balance
+                </Typography>
+                <Typography variant="body1" fontWeight="400">
+                  {account.shortName}
                 </Typography>
               </Box>
 
@@ -106,14 +110,26 @@ export default function BalanceCard({
                   gap: 1,
                 }}
               >
-                <Typography variant="h3" sx={{ mt: 1 }}>
-                  {formatCurrency(mockBalances[Index % mockBalances.length])}
+                <Typography variant="h5">
+                  {isVisible(account.accountNumber)
+                    ? formatCurrency(account.balance)
+                    : "₦ • • • • • •"}
                 </Typography>
                 <IconButton
                   size="small"
-                  sx={{ color: "text.tertiary", mb: "3px" }}
+                  sx={{ color: "text.tertiary" }}
+                  onClick={() => toggleBalanceVisibility(account.accountNumber)}
+                  aria-label={
+                    isVisible(account.accountNumber)
+                      ? "Hide balance"
+                      : "Show balance"
+                  }
                 >
-                  <VisibilityOffIcon fontSize="small" />
+                  {isVisible(account.accountNumber) ? (
+                    <VisibilityOff fontSize="small" />
+                  ) : (
+                    <Visibility fontSize="small" />
+                  )}
                 </IconButton>
               </Box>
 
@@ -126,7 +142,7 @@ export default function BalanceCard({
                 }}
               >
                 <Typography
-                  variant="body2"
+                  variant="caption"
                   sx={{
                     bgcolor: "background.paper",
                     color: "text.primary",

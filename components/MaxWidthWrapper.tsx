@@ -16,7 +16,7 @@ const MaxWidthWrapper = ({
 
   return (
     <Box
-      className={cn("h-full mx-auto w-full max-w-6xl", className)}
+      className={cn("h-full mx-auto w-full max-w-7xl", className)}
       sx={{
         backgroundColor: theme.palette.background.default,
         boxShadow: isDarkMode ? 4 : 1,

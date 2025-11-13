@@ -1,28 +1,18 @@
-interface WeeklyData {
-  day: string;
-  netIncome: number;
-  outcome: number;
-}
-
-export interface Goal {
-  title: string;
-  description: string;
-  completed?: boolean;
-}
-
-export interface customerAccounts {
-  bank: string;
-  shortName: string;
-  accountNumber: number;
-  balance: number;
-  colorScheme?: keyof typeof colorSchemes;
-}
-
-export const incomeData = [
-  { id: 0, value: 60, label: "Salary", color: "#3EC7E0" },
-  { id: 1, value: 30, label: "Selling", color: "#8FE388" },
-  { id: 2, value: 10, label: "Donation", color: "#C3E7E3" },
-];
+import {
+  ShoppingCart,
+  AttachMoney,
+  Theaters,
+  Bolt,
+  DirectionsBus,
+  Redeem,
+  House,
+  Savings,
+  CreditCardOff,
+  AccountBalance,
+  FlightTakeoff,
+  Storefront,
+  Favorite,
+} from "@mui/icons-material";
 
 export const spentData = [
   { label: "Utilities", percent: 19.5, color: "#FF7043" },
@@ -32,6 +22,14 @@ export const spentData = [
   { label: "Rent", percent: 29.5, color: "#EC407A" },
 ];
 
+// Net income interface definition
+interface WeeklyData {
+  day: string;
+  netIncome: number;
+  outcome: number;
+}
+
+// Net income data
 export const weeklyData: WeeklyData[] = [
   { day: "Mon", netIncome: 1200, outcome: 800 },
   { day: "Tue", netIncome: 1900, outcome: 1200 },
@@ -42,34 +40,99 @@ export const weeklyData: WeeklyData[] = [
   { day: "Sun", netIncome: 2200, outcome: 1300 },
 ];
 
-export const financialGoals: Goal[] = [
+// Goals interface definition
+export type GoalType = "Saving" | "Contribution";
+export interface Goal {
+  id: string;
+  title: string;
+  icon: string;
+  type: GoalType;
+  currentAmount: number;
+  targetAmount: number;
+  contributionAmount?: number;
+  completed: boolean;
+}
+
+// Goal icon helper function
+export const getGoalIcon = (iconName: string) => {
+  switch (iconName) {
+    case "Emergency":
+      return <Savings />;
+    case "CreditCard":
+      return <CreditCardOff />;
+    case "Retirement":
+      return <AccountBalance />;
+    case "DownPayment":
+      return <House />;
+    case "Vacation":
+      return <FlightTakeoff />;
+    default:
+      return <Savings />;
+  }
+};
+
+// Goals data
+export const mockGoals: Goal[] = [
+  // --- Active Goals ---
   {
+    id: "g1",
     title: "Emergency Fund",
-    description: "Save ₦10,000 for emergency expenses",
-    completed: true,
+    icon: "Emergency",
+    type: "Saving",
+    currentAmount: 10000,
+    targetAmount: 50000,
+    completed: false,
   },
   {
+    id: "g2",
     title: "Pay Off Credit Card",
-    description: "Clear ₦5,000 credit card debt",
+    icon: "CreditCard",
+    type: "Saving",
+    currentAmount: 5000,
+    targetAmount: 50000,
     completed: false,
   },
   {
+    id: "g3",
     title: "Retirement Savings",
-    description: "Contribute ₦500/month to 401k",
-    completed: true,
+    icon: "Retirement",
+    type: "Contribution",
+    currentAmount: 1500,
+    targetAmount: 0,
+    contributionAmount: 500,
+    completed: false,
   },
   {
+    id: "g4",
     title: "Down Payment",
-    description: "Save ₦50,000 for house down payment",
+    icon: "DownPayment",
+    type: "Saving",
+    currentAmount: 0,
+    targetAmount: 50000,
     completed: false,
   },
+  // --- Completed Goal ---
   {
-    title: "Investment Portfolio",
-    description: "Build ₦25,000 investment portfolio",
-    completed: false,
+    id: "g5",
+    title: "Vacation Fund",
+    icon: "Vacation",
+    type: "Saving",
+    currentAmount: 30000,
+    targetAmount: 30000,
+    completed: true,
   },
 ];
 
+// Customer accounts interface definition
+export interface customerAccounts {
+  bank: string;
+  shortName: string;
+  accountNumber: number;
+  balance: number;
+  colorScheme?: keyof typeof colorSchemes;
+}
+
+// Customer accounts data
 export const customerAccounts: customerAccounts[] = [
   {
     bank: "United Bank for Africa",
@@ -91,6 +154,7 @@ export const customerAccounts: customerAccounts[] = [
   },
 ];
 
+// Color schemes
 export const colorSchemes = {
   green: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
   blue: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
@@ -98,57 +162,35 @@ export const colorSchemes = {
   orange: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
 };
 
-// --- ADD THESE TO YOUR lib/mockData.ts FILE ---
-
-import {
-  ShoppingCart,
-  AttachMoney,
-  Theaters,
-  Bolt,
-  DirectionsBus,
-  Redeem,
-} from "@mui/icons-material";
-
-// 1. Define the possible categories
+// Categories type definition
 export type TransactionCategory =
   | "Groceries"
-  | "Income"
   | "Entertainment"
   | "Utilities"
   | "Transport"
   | "Shopping"
+  | "Rent"
+  | "Salary"
+  | "Selling"
+  | "Donation"
   | "Other";
 
-// 2. Define the new Transaction interface
-export interface Transaction {
-  id: string;
-  date: string; // Use ISO string (e.g., new Date().toISOString()) for easy sorting
-  name: string;
-  description?: string;
-  amount: number; // Positive for Income, Negative for Expense
-  type: "Income" | "Expense";
-  category: TransactionCategory;
-  accountId: number; // Links to customerAccounts (using accountNumber)
-}
-
-// 3. A list of categories for filter dropdowns
+// A list of categories for filter dropdowns
 export const transactionCategories: TransactionCategory[] = [
   "Groceries",
-  "Income",
   "Entertainment",
   "Utilities",
   "Transport",
   "Shopping",
+  "Rent",
   "Other",
 ];
 
-// 4. Icon mapping helper
+// Icon mapping helper
 export const getCategoryIcon = (category: TransactionCategory) => {
   switch (category) {
     case "Groceries":
       return <ShoppingCart />;
-    case "Income":
-      return <AttachMoney />;
     case "Entertainment":
       return <Theaters />;
     case "Utilities":
@@ -157,16 +199,36 @@ export const getCategoryIcon = (category: TransactionCategory) => {
       return <DirectionsBus />;
     case "Shopping":
       return <Redeem />;
+    case "Rent":
+      return <House />;
+    case "Salary":
+      return <AttachMoney />;
+    case "Selling":
+      return <Storefront />;
+    case "Donation":
+      return <Favorite />;
     default:
       return <ShoppingCart />;
   }
 };
 
-// 5. Your new mock transaction data
+// Transaction interface definition
+export interface Transaction {
+  id: string;
+  date: string;
+  name: string;
+  description?: string;
+  amount: number;
+  type: "Income" | "Expense";
+  category: TransactionCategory;
+  accountId: number;
+}
+
+// Transaction data
 export const mockTransactions: Transaction[] = [
   {
     id: "t1",
-    date: "2025-11-10T09:30:00Z", // Today, Nov 10
+    date: "2025-11-10T09:30:00Z",
     name: "Shoprite",
     amount: -12500,
     type: "Expense",
@@ -174,27 +236,17 @@ export const mockTransactions: Transaction[] = [
     accountId: 2074606070,
   },
   {
-    id: "t5",
-    date: "2025-11-10T14:20:00Z", // Today, Nov 10
-    name: "Local Market (Cash)",
-    description: "Bus ride to market and back",
-    amount: -500,
-    type: "Expense",
-    category: "Transport",
-    accountId: 8168038695,
-  },
-  {
     id: "t2",
-    date: "2025-11-05T15:00:00Z", // Monday, Nov 05
+    date: "2025-11-05T15:00:00Z",
     name: "Salary - FinTrack Inc.",
     amount: 132500,
     type: "Income",
-    category: "Income",
+    category: "Salary",
     accountId: 2074606070,
   },
   {
     id: "t3",
-    date: "2025-11-03T18:00:00Z", // Friday, Nov 03
+    date: "2025-11-03T18:00:00Z",
     name: "Netflix Subscription",
     amount: -3500,
     type: "Expense",
@@ -203,9 +255,20 @@ export const mockTransactions: Transaction[] = [
   },
   {
     id: "t4",
-    date: "2025-11-03T08:15:00Z", // Friday, Nov 03
+    date: "2025-11-03T08:15:00Z",
     name: "Bolt Ride",
     amount: -2200,
+    type: "Expense",
+    category: "Transport",
+    accountId: 8168038695,
+  },
+
+  {
+    id: "t5",
+    date: "2025-11-10T14:20:00Z",
+    name: "Local Market (Cash)",
+    description: "Bus ride to market and back",
+    amount: -500,
     type: "Expense",
     category: "Transport",
     accountId: 8168038695,
@@ -218,5 +281,97 @@ export const mockTransactions: Transaction[] = [
     type: "Expense",
     category: "Utilities",
     accountId: 5563442010,
+  },
+  {
+    id: "t7",
+    date: "2025-11-06T10:00:00Z",
+    name: "NEPA Bill (Eko Electric)",
+    amount: -18500,
+    type: "Expense",
+    category: "Utilities",
+    accountId: 5563442010,
+  },
+  {
+    id: "t8",
+    date: "2025-11-08T17:00:00Z",
+    name: "Ebeano Supermarket",
+    amount: -16400,
+    type: "Expense",
+    category: "Groceries",
+    accountId: 2074606070,
+  },
+  {
+    id: "t9",
+    date: "2025-11-07T10:00:00Z",
+    name: "Sold Graphics Card",
+    amount: 35000,
+    type: "Income",
+    category: "Selling",
+    accountId: 8168038695,
+  },
+  {
+    id: "t10",
+    date: "2025-11-08T12:00:00Z",
+    name: "Gift from Uncle",
+    amount: 10000,
+    type: "Income",
+    category: "Donation",
+    accountId: 2074606070,
+  },
+];
+
+// Budget interface definition
+export interface Budget {
+  id: string;
+  category: TransactionCategory;
+  limit: number;
+  month: string;
+}
+// Budget data
+export const mockBudgets: Budget[] = [
+  // --- November 2025 Budgets ---
+  {
+    id: "b1",
+    category: "Groceries",
+    limit: 40000,
+    month: "2025-11",
+  },
+  {
+    id: "b2",
+    category: "Rent",
+    limit: 29500,
+    month: "2025-11",
+  },
+  {
+    id: "b3",
+    category: "Utilities",
+    limit: 15000,
+    month: "2025-11",
+  },
+  {
+    id: "b4",
+    category: "Entertainment",
+    limit: 15500,
+    month: "2025-11",
+  },
+
+  // --- October 2025 Budgets ---
+  {
+    id: "b5",
+    category: "Groceries",
+    limit: 35000,
+    month: "2025-10",
+  },
+  {
+    id: "b6",
+    category: "Rent",
+    limit: 29500,
+    month: "2025-10",
+  },
+  {
+    id: "b7",
+    category: "Utilities",
+    limit: 20000,
+    month: "2025-10",
   },
 ];

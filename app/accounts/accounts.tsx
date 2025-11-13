@@ -84,7 +84,7 @@ export default function Accounts() {
         sx={{
           width: "100%",
           background: "linear-gradient(135deg, #007F5F 0%, #00A87C 100%)",
-          color: theme.palette.primary.contrastText, // Set text color to white
+          color: theme.palette.primary.contrastText,
           transition: "box-shadow 0.3s ease-in-out",
           "&:hover": {
             boxShadow: 6,
@@ -113,7 +113,7 @@ export default function Accounts() {
             </Typography>
             <IconButton
               size="small"
-              sx={{ mb: "3px" }}
+              sx={{ mb: !isMobile ? "12px" : "6px" }}
               onClick={() => toggleBalanceVisibility("totalBalance")}
               aria-label={
                 isVisible("totalBalance") ? "Hide balance" : "Show balance"

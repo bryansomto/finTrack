@@ -28,7 +28,6 @@ export default function Transactions() {
     searchQuery: "",
   });
 
-  // --- LOGIC ---
   // This logic applies the filters to the master list
   const filteredTransactions = transactions.filter((tx) => {
     if (filters.accountId !== "All" && tx.accountId !== filters.accountId) {
@@ -64,15 +63,12 @@ export default function Transactions() {
 
   return (
     <Stack spacing={3} p={isMobile ? 1 : 3}>
-      {/* FILTER BAR */}
       <TransactionFilterBar
         filters={filters}
         setFilters={setFilters}
         accounts={customerAccounts}
         categories={transactionCategories}
       />
-
-      {/* TRANSACTION LIST */}
       <TransactionList
         transactions={filteredTransactions}
         onUpdateCategory={handleUpdateCategory}

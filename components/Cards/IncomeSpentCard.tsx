@@ -65,7 +65,7 @@ export default function IncomeSpentCard({
         boxShadow: 3,
         p: 2,
         backgroundColor: theme.palette.background.default,
-        gridColumn: isMobile ? "auto" : "span 2",
+        gridColumn: !isMobile ? "span 2" : "auto",
       }}
     >
       <CardContent>

@@ -56,7 +56,7 @@ export default function Sidebar({ open, onClose, onToggle }: SidebarProps) {
     return (
       <Box
         sx={{
-          width: 220,
+          width: 260,
           flexShrink: 0,
           height: "100vh",
           position: "sticky",

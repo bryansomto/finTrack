@@ -13,7 +13,7 @@ export function usePersistentVisibility(
   localStorageKey: string,
   defaultVisibility: boolean = true
 ) {
-  // 1. STATE: Load the map from localStorage on mount
+  // STATE: Load the map from localStorage on mount
   const [visibilityMap, setVisibilityMap] = useState<
     Record<string | number, boolean>
   >(() => {
@@ -35,7 +35,7 @@ export function usePersistentVisibility(
     }
   });
 
-  // 2. EFFECT: Save the map to localStorage *every time it changes*
+  // EFFECT: Save the map to localStorage *every time it changes*
   useEffect(() => {
     // This effect runs on the client every time visibilityMap changes
     if (typeof window === "undefined") {
@@ -52,7 +52,7 @@ export function usePersistentVisibility(
     }
   }, [visibilityMap, localStorageKey]); // Re-run if map or key changes
 
-  // 3. HANDLER: The function to toggle an item's state
+  // HANDLER: The function to toggle an item's state
   const toggleVisibility = useCallback(
     (id: string | number) => {
       setVisibilityMap((prevMap) => {
@@ -69,7 +69,7 @@ export function usePersistentVisibility(
     [defaultVisibility] // Dependency for the default value
   );
 
-  // 4. HELPER: A stable function to check an item's visibility
+  // HELPER: A stable function to check an item's visibility
   const isVisible = useCallback(
     (id: string | number) => {
       return visibilityMap[id] ?? defaultVisibility;
@@ -77,6 +77,6 @@ export function usePersistentVisibility(
     [visibilityMap, defaultVisibility]
   );
 
-  // 5. API: Return the map, the toggle function, and the helper
+  // API: Return the map, the toggle function, and the helper
   return { visibilityMap, toggleVisibility, isVisible };
 }

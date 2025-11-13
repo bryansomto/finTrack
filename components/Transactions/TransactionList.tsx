@@ -2,30 +2,9 @@
 
 import { Box, Typography, List, Divider } from "@mui/material";
 import { Transaction, TransactionCategory } from "@/lib/mockData";
-import TransactionItem from "./TransactionItem"; // We will create this
+import TransactionItem from "./TransactionItem";
+import { formatDateHeading } from "@/lib/utils";
 
-// Helper to format the date
-const formatDateHeading = (dateString: string) => {
-  const date = new Date(dateString);
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  if (date.toDateString() === today.toDateString()) {
-    return "Today";
-  }
-  if (date.toDateString() === yesterday.toDateString()) {
-    return "Yesterday";
-  }
-  return date.toLocaleDateString("en-GB", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
-
-// Props definition
 interface ListProps {
   transactions: Transaction[];
   onUpdateCategory: (txId: string, newCategory: TransactionCategory) => void;
@@ -37,7 +16,7 @@ export default function TransactionList({
 }: ListProps) {
   // --- Date Grouping Logic ---
   const groupedTransactions = transactions.reduce((acc, tx) => {
-    const dateKey = tx.date.split("T")[0]; // Group by YYYY-MM-DD
+    const dateKey = tx.date.split("T")[0];
     if (!acc[dateKey]) {
       acc[dateKey] = [];
     }

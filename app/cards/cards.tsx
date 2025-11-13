@@ -17,7 +17,7 @@ import {
   Stack,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { formatCurrency } from "@/lib/utils";
 import TransactionList from "@/components/Transactions/TransactionList";
@@ -154,16 +154,13 @@ export default function Cards() {
         </Box>
         <Box
           sx={{
-            // --- MOBILE STYLES ---
             display: "flex",
             flexDirection: "column",
             overflowY: "auto",
             overflowX: "hidden",
             height: "100%",
-            // minHeight: "400px",
             gap: 2,
             pt: 1,
-            // --- DESKTOP STYLES (using Grid) ---
             [theme.breakpoints.up("sm")]: {
               display: "grid",
               gridAutoFlow: "column",
@@ -175,7 +172,6 @@ export default function Cards() {
               height: "100%",
               minHeight: "200px",
             },
-            // --- General ---
             width: "100%",
             "& > *": {
               flexShrink: 0,

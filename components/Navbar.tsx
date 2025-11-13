@@ -117,18 +117,16 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
               </Box>
             </Typography>
           </Box>
-
-          {/* Right section - Search, user avatar and theme toggle */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: { xs: 1, sm: 2 }, // Adds consistent spacing between items
+              gap: { xs: 1, sm: 2 },
             }}
           >
             <Search
               sx={{
-                marginRight: 0, // Remove margin since we're using gap
+                marginRight: 0,
                 width: { xs: "120px", sm: "auto" },
               }}
             >

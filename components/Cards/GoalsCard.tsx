@@ -1,24 +1,90 @@
 "use client";
 
+import { useMemo } from "react";
 import {
+  Box,
+  Typography,
+  Paper,
+  LinearProgress,
+  Avatar,
+  Stack,
+  useTheme,
   Card,
   CardContent,
-  Typography,
-  Stack,
-  Box,
-  useTheme,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import { Goal } from "@/lib/mockData";
+import { Goal, getGoalIcon } from "@/lib/mockData";
+import { formatCurrency } from "@/lib/utils";
 
-interface GoalsCardProps {
-  title?: string;
-  goals: Goal[];
-}
-
-export default function GoalsCard({ title = "Goals", goals }: GoalsCardProps) {
+const MiniGoalItem: React.FC<{ goal: Goal }> = ({ goal }) => {
   const theme = useTheme();
+  const percent =
+    goal.targetAmount > 0 ? (goal.currentAmount / goal.targetAmount) * 100 : 0;
+
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        scrollSnapAlign: "start",
+        p: 2,
+        borderRadius: 2,
+        backgroundColor:
+          theme.palette.mode === "light"
+            ? "rgba(0, 0, 0, 0.04)"
+            : "rgba(255, 255, 255, 0.08)",
+      }}
+    >
+      <Stack spacing={1}>
+        {/* Top Row: Icon and Title */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <Avatar
+            sx={{
+              bgcolor: "transparent",
+              color: "text.secondary",
+            }}
+          >
+            {getGoalIcon(goal.icon)}
+          </Avatar>
+          <Typography
+            variant="body1"
+            fontWeight={600}
+            color="text.primary"
+            sx={{ textTransform: "capitalize" }}
+          >
+            {goal.title}
+          </Typography>
+        </Box>
+
+        <Stack>
+          <Typography variant="h6" fontWeight={600} color="text.primary">
+            {formatCurrency(goal.currentAmount)}
+          </Typography>
+          {goal.type === "Saving" && (
+            <Typography variant="caption" color="text.secondary">
+              of {formatCurrency(goal.targetAmount)}
+            </Typography>
+          )}
+        </Stack>
+
+        {goal.type === "Saving" && (
+          <LinearProgress
+            variant="determinate"
+            value={Math.min(percent, 100)}
+            color={percent > 70 ? "warning" : "primary"}
+            sx={{ height: 6, borderRadius: 5 }}
+          />
+        )}
+      </Stack>
+    </Paper>
+  );
+};
+
+export default function GoalsCard({ goals }: { goals: Goal[] }) {
+  const theme = useTheme();
+
+  const activeGoals = useMemo(() => {
+    return goals.filter((goal) => !goal.completed);
+  }, [goals]);
+
   return (
     <Card
       sx={{
@@ -29,36 +95,51 @@ export default function GoalsCard({ title = "Goals", goals }: GoalsCardProps) {
       }}
     >
       <CardContent>
-        <Typography variant="subtitle2" color="text.secondary" mb={2}>
-          {title}
-        </Typography>
-
-        <Stack spacing={2}>
-          {goals.map((goal, idx) => (
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="flex-start"
-              key={idx}
-            >
-              <Box mt={0.2}>
-                {goal.completed ? (
-                  <CheckCircleIcon color="success" fontSize="small" />
-                ) : (
-                  <RadioButtonUncheckedIcon color="warning" fontSize="small" />
-                )}
-              </Box>
-              <Box>
-                <Typography variant="body2" fontWeight={600}>
-                  {goal.title}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {goal.description}
-                </Typography>
-              </Box>
-            </Stack>
-          ))}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={2}
+        >
+          <Typography variant="subtitle2" color="text.secondary">
+            Active Goals
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {activeGoals.length} Active
+          </Typography>
         </Stack>
+
+        <Box
+          sx={{
+            gap: 1.5,
+
+            // --- (Horizontal Grid Scroll) ---
+            display: "grid",
+            gridAutoFlow: "column",
+            gridAutoColumns: "minmax(240px, 1fr)",
+            overflowX: "auto",
+            overflowY: "hidden",
+            scrollSnapType: "x mandatory",
+
+            // --- (Vertical Flex Scroll) ---
+            [theme.breakpoints.up("sm")]: {
+              display: "flex",
+              flexDirection: "column",
+              overflowY: "auto",
+              overflowX: "hidden",
+              scrollSnapType: "y mandatory",
+              height: "300px",
+            },
+
+            "&::-webkit-scrollbar": { display: "none" },
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          {activeGoals.map((goal) => (
+            <MiniGoalItem key={goal.id} goal={goal} />
+          ))}
+        </Box>
       </CardContent>
     </Card>
   );

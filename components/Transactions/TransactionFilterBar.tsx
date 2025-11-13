@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { customerAccounts, TransactionCategory } from "@/lib/mockData";
 
-// Define the props it will receive
 interface FilterBarProps {
   filters: any;
   setFilters: (filters: any) => void;
@@ -25,7 +24,7 @@ export default function TransactionFilterBar({
   accounts,
   categories,
 }: FilterBarProps) {
-  // A generic handler to update any filter field
+  // Generic handler to update any filter field
   const handleChange = (field: string, value: any) => {
     setFilters((prevFilters: any) => ({
       ...prevFilters,

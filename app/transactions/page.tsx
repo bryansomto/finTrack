@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/DashboardLayout";
-import Transactions from "./transactions";
 import AddTransactionButton from "@/components/Buttons/AddTransactionButton";
+import Transactions from "./transactions";
 
 export default function TransactionsPage() {
   return (

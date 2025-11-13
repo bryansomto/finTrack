@@ -1,7 +1,11 @@
+import DashboardLayout from "@/components/DashboardLayout";
+import AddBudgetButton from "@/components/Buttons/AddBudgetButton";
+import Budgets from "./budgets";
+
 export default function BudgetsPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <h1 className="text-2xl font-bold">Budgets Page</h1>
-    </div>
+    <DashboardLayout button={<AddBudgetButton />}>
+      <Budgets />
+    </DashboardLayout>
   );
 }

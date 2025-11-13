@@ -52,7 +52,6 @@ export default function TransactionItem({
   };
 
   const handleItemClick = () => {
-    // This is for the ">" details click
     alert(`Opening details for ${transaction.name}`);
   };
 
@@ -110,7 +109,7 @@ export default function TransactionItem({
         onClose={handleCloseMenu}
       >
         {transactionCategories
-          .filter((cat) => cat !== "Income") // Can't recategorize to Income
+          .filter((cat) => cat !== "Income")
           .map((category) => (
             <MenuItem
               key={category}

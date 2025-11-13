@@ -1,6 +1,9 @@
 "use client";
 
-import { formatCurrency } from "@/lib/utils";
+import { useMemo } from "react";
+// --- Uses relative paths ---
+import { formatCurrency } from "../../lib/utils";
+import { Transaction, TransactionCategory } from "../../lib/mockData";
 import {
   Card,
   CardContent,
@@ -11,26 +14,61 @@ import {
   useTheme,
 } from "@mui/material";
 
-type SpentItem = {
-  label: string;
-  percent: number;
-  color: string;
+// Define the colors for each expense category
+const CATEGORY_COLORS: Record<string, string> = {
+  Utilities: "#FF7043",
+  Groceries: "#66BB6A",
+  Entertainment: "#7E57C2",
+  Rent: "#EC407A",
+  Transport: "#5C6BC0",
+  Shopping: "#26A69A",
+  Other: "#FFA726",
 };
 
+// Update the Props to take 'transactions'
 interface SpentCardProps {
   title?: string;
-  total: number;
-  data: SpentItem[];
+  transactions: Transaction[];
   accountLabel?: string;
 }
 
 export default function SpentCard({
   title = "Total Spent",
-  total,
-  data,
+  transactions,
   accountLabel = "All accounts",
 }: SpentCardProps) {
   const theme = useTheme();
+
+  // Add Dynamic Calculation Logic
+  const { totalSpent, dynamicSpentData } = useMemo(() => {
+    let total = 0;
+
+    // Group expenses by category
+    const spentByCategory = transactions.reduce((acc, tx) => {
+      if (tx.type === "Expense") {
+        const amount = Math.abs(tx.amount);
+        total += amount;
+        const category = tx.category;
+        acc[category] = (acc[category] || 0) + amount;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+
+    // Transform data for the UI
+    const spentData = Object.entries(spentByCategory)
+      .map(([label, value]) => ({
+        label,
+        value, // Keep the raw value for sorting
+        percent: total > 0 ? (value / total) * 100 : 0,
+        color:
+          CATEGORY_COLORS[label as TransactionCategory] ||
+          CATEGORY_COLORS.Other,
+      }))
+      .sort((a, b) => b.value - a.value); // Sort highest first
+
+    return { totalSpent: total, dynamicSpentData: spentData };
+  }, [transactions]);
+
   return (
     <Card
       sx={{
@@ -54,27 +92,29 @@ export default function SpentCard({
           </Typography>
         </Stack>
 
+        {/* Use the new dynamic total */}
         <Typography variant="h4" fontWeight={700} mt={2}>
-          {formatCurrency(total)}
+          {formatCurrency(totalSpent)}
         </Typography>
 
         <Divider sx={{ my: 2 }} />
 
+        {/* Map over the new dynamic data */}
         <Stack spacing={1}>
-          {data.map((item) => (
+          {dynamicSpentData.map((item) => (
             <Box key={item.label}>
               <Typography
                 variant="body2"
                 fontWeight={600}
                 color="text.secondary"
               >
-                {item.label} — {item.percent}%
+                {item.label} — {item.percent.toFixed(0)}%
               </Typography>
               <Box
                 sx={{
                   height: 6,
                   borderRadius: 2,
-                  bgcolor: `${item.color}40`,
+                  bgcolor: `${item.color}40`, // Faded background
                   mt: 0.5,
                 }}
               >

@@ -18,14 +18,14 @@ export interface TransactionFilters {
 export function useTransactions(
   defaultFilters: TransactionFilters = { accountId: "All" }
 ) {
-  // 1. Core state is now managed inside the hook
+  // Core state is now managed inside the hook
   const [transactions, setTransactions] =
     useState<Transaction[]>(mockTransactions);
 
   const [filters, setFilters] =
     useState<TransactionFilters>(defaultFilters);
 
-  // 2. Memoize derived state for performance
+  // Memoize derived state for performance
   // This list only recalculates when transactions or filters change
   const filteredTransactions = useMemo(() => {
     return transactions.filter((tx) => {
@@ -42,7 +42,7 @@ export function useTransactions(
     });
   }, [transactions, filters]); // Dependencies
 
-  // 3. Wrap handlers in useCallback for stable function identity
+  // Wrap handlers in useCallback for stable function identity
   // This prevents unnecessary re-renders in child components
   const handleUpdateCategory = useCallback(
     (txId: string, newCategory: TransactionCategory) => {
@@ -56,7 +56,7 @@ export function useTransactions(
     [] // No dependencies, as setTransactions is stable
   );
 
-  // 4. Return the state and handlers for components to use
+  // Return the state and handlers for components to use
   return {
     transactions, // The full, unfiltered list
     filteredTransactions, // The list to render

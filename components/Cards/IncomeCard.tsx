@@ -1,6 +1,8 @@
 "use client";
 
+import { useMemo } from "react";
 import { formatCurrency } from "@/lib/utils";
+import { Transaction } from "@/lib/mockData";
 import {
   Card,
   CardContent,
@@ -12,33 +14,60 @@ import {
 } from "@mui/material";
 import { PieChart } from "@mui/x-charts";
 
-type IncomeData = {
-  id: number;
-  value: number;
-  label: string;
-  color: string;
+const CATEGORY_COLORS: Record<string, string> = {
+  Salary: "#3EC7E0",
+  Selling: "#8FE388",
+  Donation: "#C3E7E3",
+  Other: "#BDBDBD",
 };
 
-interface IncomeCardProps {
+interface DynamicIncomeCardProps {
   title?: string;
-  total: number;
-  data: IncomeData[];
+  transactions: Transaction[];
   accountLabel?: string;
 }
 
 export default function IncomeCard({
   title = "Total Income",
-  total,
-  data,
+  transactions,
   accountLabel = "All accounts",
-}: IncomeCardProps) {
+}: DynamicIncomeCardProps) {
   const theme = useTheme();
   const isBelowLG = useMediaQuery(theme.breakpoints.down("lg"));
 
-  // Find top category
-  const topCategory = data.reduce((prev, curr) =>
-    curr.value > prev.value ? curr : prev
+  // --- DYNAMIC INCOME DATA CALCULATION ---
+  const { totalIncome, pieChartData } = useMemo(() => {
+    let total = 0;
+
+    // Group all income transactions by category
+    const incomeByCategory = transactions.reduce((acc, tx) => {
+      if (tx.type === "Income") {
+        total += tx.amount;
+        const category = tx.category;
+        acc[category] = (acc[category] || 0) + tx.amount;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+
+    // Transform the grouped data into PieChart format
+    const chartData = Object.entries(incomeByCategory).map(
+      ([label, value], id) => ({
+        id: id,
+        value: value,
+        label: label,
+        color: CATEGORY_COLORS[label] || CATEGORY_COLORS.Other,
+      })
+    );
+
+    return { totalIncome: total, pieChartData: chartData };
+  }, [transactions]);
+
+  // Find top category from the *new* dynamic data
+  const topCategory = pieChartData.reduce(
+    (prev, curr) => (curr.value > prev.value ? curr : prev),
+    pieChartData[0] || null // Handle empty data
   );
+
   return (
     <Card
       sx={{
@@ -68,7 +97,7 @@ export default function IncomeCard({
             height={180}
             series={[
               {
-                data,
+                data: pieChartData,
                 innerRadius: 65,
                 outerRadius: 80,
               },
@@ -81,7 +110,6 @@ export default function IncomeCard({
             }}
           />
 
-          {/* Centered total */}
           <Box
             position="absolute"
             top={isBelowLG ? "50%" : "40%"}
@@ -92,13 +120,14 @@ export default function IncomeCard({
             alignItems="center"
           >
             <Typography variant="h5" fontWeight={700}>
-              {formatCurrency(total)}
+              {formatCurrency(totalIncome)}
             </Typography>
             <Typography variant="caption" color="text.secondary">
               Total
             </Typography>
           </Box>
         </Box>
+
         {topCategory && (
           <Typography
             variant="body2"
