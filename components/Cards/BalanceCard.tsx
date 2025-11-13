@@ -40,6 +40,7 @@ export default function BalanceCard({
         boxShadow: 3,
         p: 2,
         backgroundColor: theme.palette.background.default,
+        minWidth: "300px",
       }}
     >
       <CardContent>
