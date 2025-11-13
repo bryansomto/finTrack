@@ -1,6 +1,6 @@
 "use client";
 
-import { customerAccounts } from "@/lib/mockData"; // Make sure this mock data has 'accountNumber'
+import { customerAccounts } from "@/lib/mockData";
 import {
   Autocomplete,
   Box,
@@ -77,63 +77,63 @@ export default function Accounts() {
         flexDirection: "column",
         gap: 5,
         p: isMobile ? 1 : 3,
+        minWidth: 0,
       }}
     >
       <Paper
         elevation={2}
         sx={{
           width: "100%",
-          background: "linear-gradient(135deg, #007F5F 0%, #00A87C 100%)",
-          color: theme.palette.primary.contrastText,
+          backgroundColor: theme.palette.background.default,
           transition: "box-shadow 0.3s ease-in-out",
           "&:hover": {
             boxShadow: 6,
           },
-          minWidth: "240px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          p: isMobile ? 2 : 3,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            p: isMobile ? 2 : 3,
-            height: "160px",
-            color: "primary.contrastText",
-          }}
-        >
-          <Typography variant="h6" fontWeight={300}>
-            Total Cash Balance
+        <Typography variant="h6" fontWeight={500} color="text.secondary">
+          Total Cash Balance
+        </Typography>
+
+        <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
+          <Typography
+            variant={isMobile ? "h3" : "h2"}
+            fontWeight={500}
+            color="text.primary"
+          >
+            {isVisible("totalBalance")
+              ? formatCurrency(totalBalance)
+              : "₦ • • • • • •"}
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
-            <Typography variant={isMobile ? "h3" : "h2"} fontWeight={500}>
-              {isVisible("totalBalance")
-                ? formatCurrency(totalBalance)
-                : "₦ • • • • • •"}
-            </Typography>
-            <IconButton
-              size="small"
-              sx={{ mb: !isMobile ? "12px" : "6px" }}
-              onClick={() => toggleBalanceVisibility("totalBalance")}
-              aria-label={
-                isVisible("totalBalance") ? "Hide balance" : "Show balance"
-              }
-            >
-              {isVisible("totalBalance") ? (
-                <VisibilityOff fontSize="small" />
-              ) : (
-                <Visibility fontSize="small" />
-              )}
-            </IconButton>
-          </Box>
+          <IconButton
+            size="small"
+            sx={{
+              mb: !isMobile ? "12px" : "6px",
+              color: "text.secondary",
+            }}
+            onClick={() => toggleBalanceVisibility("totalBalance")}
+            aria-label={
+              isVisible("totalBalance") ? "Hide balance" : "Show balance"
+            }
+          >
+            {isVisible("totalBalance") ? (
+              <VisibilityOff fontSize="small" />
+            ) : (
+              <Visibility fontSize="small" />
+            )}
+          </IconButton>
         </Box>
       </Paper>
-
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: 2,
+          minWidth: 0,
         }}
       >
         <Box
@@ -158,14 +158,12 @@ export default function Accounts() {
                 open={isMenuOpen}
                 onClose={handleCloseMenu}
               >
-                {/* "All" Option */}
                 <MenuItem
                   onClick={() => handleAccountSelection(null)}
                   selected={filters.accountId === "All"}
                 >
                   All Accounts
                 </MenuItem>
-                {/* Account Options */}
                 {customerAccounts.map((account) => (
                   <MenuItem
                     key={account.shortName}
@@ -257,17 +255,14 @@ export default function Accounts() {
                   gap: 1,
                 }}
               >
-                {/* 1. Check visibility using the account.accountNumber ID */}
                 <Typography variant={isMobile ? "h5" : "h4"} fontWeight="600">
                   {isVisible(account.accountNumber)
                     ? formatCurrency(account.balance)
                     : "₦ • • • • • •"}
                 </Typography>
-
-                {/* 2. Toggle visibility using the account.accountNumber ID */}
                 <IconButton
                   size="small"
-                  sx={{ mb: "3px" }}
+                  sx={{ mb: "3px", color: "text.secondary" }}
                   onClick={() => toggleBalanceVisibility(account.accountNumber)}
                   aria-label={
                     isVisible(account.accountNumber)
@@ -286,7 +281,7 @@ export default function Accounts() {
           </Paper>
         ))}
       </Box>
-      <Stack spacing={3} p={isMobile ? 1 : 3}>
+      <Stack spacing={3} p={isMobile ? 1 : 3} sx={{ minWidth: 0 }}>
         <TransactionList
           transactions={filteredTransactions}
           onUpdateCategory={handleUpdateCategory}

@@ -9,19 +9,15 @@ import {
   Stack,
   useTheme,
 } from "@mui/material";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { formatCurrency } from "@/lib/utils";
-import { colorSchemes, customerAccounts } from "@/lib/mockData";
+import { colorSchemes } from "@/lib/mockData";
 import { usePersistentVisibility } from "@/lib/hooks/usePersistentVisibility";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { customerAccounts } from "@/lib/mockData";
 
 interface BalanceCardProps {
   title?: string;
-  balance?: number | string;
   cardDetails?: string;
-  showAllCards?: boolean;
-  variant?: "default" | "compact";
-  colorScheme?: keyof typeof colorSchemes;
   accountLabel?: string;
   cards: customerAccounts[];
 }
@@ -51,6 +47,7 @@ export default function BalanceCard({
           direction="row"
           justifyContent="space-between"
           alignItems="center"
+          mb={2}
         >
           <Typography variant="subtitle2" color="text.secondary">
             {title}
@@ -59,20 +56,30 @@ export default function BalanceCard({
             {accountLabel}
           </Typography>
         </Stack>
+
         <Box
           sx={{
-            mt: 3,
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            justifyContent: "flex-start",
-            alignItems: "center",
-            overflowY: "auto",
-            overflowX: "hidden",
-            maxHeight: "280px",
-            "& > *": {
-              flexShrink: 0,
+            gap: 1.5,
+
+            // --- MOBILE-FIRST (Horizontal Grid Scroll) ---
+            display: "grid",
+            gridAutoFlow: "column",
+            gridAutoColumns: "minmax(240px, 1fr)",
+            overflowX: "auto",
+            overflowY: "hidden",
+            scrollSnapType: "x mandatory",
+
+            // --- DESKTOP OVERRIDE (Vertical Flex Scroll) ---
+            [theme.breakpoints.up("sm")]: {
+              display: "flex",
+              flexDirection: "column",
+              overflowY: "auto",
+              overflowX: "hidden",
+              scrollSnapType: "y mandatory",
+              maxHeight: "250px",
             },
+
+            // --- General Scrollbar Hiding ---
             "&::-webkit-scrollbar": { display: "none" },
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -82,6 +89,7 @@ export default function BalanceCard({
             <Box
               key={Index}
               sx={{
+                scrollSnapAlign: "start",
                 borderRadius: 1,
                 p: 2,
                 background: colorSchemes[schemeKeys[Index % schemeKeys.length]],
@@ -90,7 +98,6 @@ export default function BalanceCard({
                 flexDirection: "column",
                 justifyContent: "space-between",
                 width: "100%",
-                minWidth: 200,
                 boxShadow: 3,
               }}
             >

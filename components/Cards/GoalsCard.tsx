@@ -113,7 +113,7 @@ export default function GoalsCard({ goals }: { goals: Goal[] }) {
           sx={{
             gap: 1.5,
 
-            // --- (Horizontal Grid Scroll) ---
+            // --- MOBILE-FIRST (Horizontal Grid Scroll) ---
             display: "grid",
             gridAutoFlow: "column",
             gridAutoColumns: "minmax(240px, 1fr)",
@@ -121,7 +121,7 @@ export default function GoalsCard({ goals }: { goals: Goal[] }) {
             overflowY: "hidden",
             scrollSnapType: "x mandatory",
 
-            // --- (Vertical Flex Scroll) ---
+            // --- DESKTOP OVERRIDE (Vertical Flex Scroll) ---
             [theme.breakpoints.up("sm")]: {
               display: "flex",
               flexDirection: "column",
@@ -131,6 +131,7 @@ export default function GoalsCard({ goals }: { goals: Goal[] }) {
               height: "300px",
             },
 
+            // --- General Scrollbar Hiding ---
             "&::-webkit-scrollbar": { display: "none" },
             scrollbarWidth: "none",
             msOverflowStyle: "none",

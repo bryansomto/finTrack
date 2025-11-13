@@ -91,12 +91,12 @@ export default function GoalCard({ goal }: GoalCardProps) {
           <Typography
             variant="h6"
             fontWeight={500}
-            sx={{ flexGrow: 1, textTransform: "capitalize" }}
+            sx={{ flexGrow: 1, textTransform: "capitalize", mt: 1 }}
           >
             {goal.title}
           </Typography>
           {!goal.completed && (
-            <IconButton size="small">
+            <IconButton size="small" sx={{ mt: 0.5 }}>
               <MoreVert />
             </IconButton>
           )}
