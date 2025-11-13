@@ -46,7 +46,7 @@ export default function SpentCard({
     // Group expenses by category
     const spentByCategory = transactions.reduce((acc, tx) => {
       if (tx.type === "Expense") {
-        const amount = Math.abs(tx.amount);
+        const amount = Math.abs(tx.amount); //use absolute values
         total += amount;
         const category = tx.category;
         acc[category] = (acc[category] || 0) + amount;
@@ -58,7 +58,7 @@ export default function SpentCard({
     const spentData = Object.entries(spentByCategory)
       .map(([label, value]) => ({
         label,
-        value, // Keep the raw value for sorting
+        value,
         percent: total > 0 ? (value / total) * 100 : 0,
         color:
           CATEGORY_COLORS[label as TransactionCategory] ||
@@ -92,14 +92,12 @@ export default function SpentCard({
           </Typography>
         </Stack>
 
-        {/* Use the new dynamic total */}
         <Typography variant="h4" fontWeight={700} mt={2}>
           {formatCurrency(totalSpent)}
         </Typography>
 
         <Divider sx={{ my: 2 }} />
 
-        {/* Map over the new dynamic data */}
         <Stack spacing={1}>
           {dynamicSpentData.map((item) => (
             <Box key={item.label}>
@@ -114,7 +112,7 @@ export default function SpentCard({
                 sx={{
                   height: 6,
                   borderRadius: 2,
-                  bgcolor: `${item.color}40`, // Faded background
+                  bgcolor: `${item.color}40`,
                   mt: 0.5,
                 }}
               >
